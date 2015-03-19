@@ -3,6 +3,7 @@ describe('cookie', function () {
 
   var analytics = window.analytics;
   var Analytics = analytics.constructor;
+  var json = require('json');
   var assert = require('assert');
   var cookie = Analytics.cookie;
   var equal = require('equals');
@@ -24,8 +25,8 @@ describe('cookie', function () {
     });
 
     it('should get an existing cookie', function () {
-      cookie.set('x', { a : 'b' });
-      assert(equal(cookie.get('x'), { a : 'b' }));
+      cookie.set('x', json.stringify({ a : 'b' }));
+      assert(equal(cookie.get('x'), json.parse({ a : 'b' })));
     });
 
     it('should not throw an error on a malformed cookie', function () {
@@ -36,15 +37,15 @@ describe('cookie', function () {
 
   describe('#set', function () {
     it('should set a cookie', function () {
-      cookie.set('x', { a : 'b' });
-      assert(equal(cookie.get('x'), { a : 'b' }));
+      cookie.set('x', json.stringify({ a : 'b' }));
+      assert(equal(cookie.get('x'), json.parse({ a : 'b' })));
     });
   });
 
   describe('#remove', function () {
     it('should remove a cookie', function () {
-      cookie.set('x', { a : 'b' });
-      assert(equal(cookie.get('x'), { a : 'b' }));
+      cookie.set('x', json.stringify({ a : 'b' }));
+      assert(equal(cookie.get('x'), json.parse({ a : 'b' })));
       cookie.remove('x');
       assert(cookie.get('x') === null);
     });
