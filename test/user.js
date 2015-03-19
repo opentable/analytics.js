@@ -52,7 +52,7 @@ describe('user', function () {
 
     it('should not pick the old "_sio" if anonymous id is present', function(){
       rawCookie('_sio', 'old-anonymous-id----user-id');
-      cookie.set('ajs_anonymous_id', 'new-anonymous-id');
+      cookie.set('anonymousId', 'new-anonymous-id');
       assert('new-anonymous-id' == new User().anonymousId());
     });
 
@@ -62,7 +62,7 @@ describe('user', function () {
     });
 
     it('should not overwrite anonymous id', function(){
-      cookie.set('ajs_anonymous_id', 'anonymous');
+      cookie.set('anonymousId', 'anonymous');
       assert('anonymous' == new User().anonymousId());
     });
   })
@@ -256,13 +256,13 @@ describe('user', function () {
       });
 
       it('should get an id from the store', function () {
-        store.set('ajs_anonymous_id', 'anon-id');
+        store.set('anonymousId', 'anon-id');
         assert('anon-id' == user.anonymousId());
       });
 
       it('should set an id to the store', function () {
         user.anonymousId('anon-id');
-        assert('anon-id' === store.get('ajs_anonymous_id'));
+        assert('anon-id' === store.get('anonymousId'));
       });
 
       it('should return anonymousId using the store', function(){
@@ -284,13 +284,13 @@ describe('user', function () {
       });
 
       it('should get an id from the memory', function () {
-        memory.set('ajs_anonymous_id', 'anon-id');
+        memory.set('anonymousId', 'anon-id');
         assert('anon-id' == user.anonymousId());
       });
 
       it('should set an id to the memory', function () {
         user.anonymousId('anon-id');
-        assert('anon-id' === memory.get('ajs_anonymous_id'));
+        assert('anon-id' === memory.get('anonymousId'));
       });
 
       it('should return anonymousId using the store', function(){
@@ -301,13 +301,13 @@ describe('user', function () {
 
     describe('when cookies are enabled', function(){
       it('should get an id from the cookie', function () {
-        cookie.set('ajs_anonymous_id', 'anon-id');
+        cookie.set('anonymousId', 'anon-id');
         assert('anon-id' == user.anonymousId());
       });
 
       it('should set an id to the cookie', function () {
         user.anonymousId('anon-id');
-        assert('anon-id' === cookie.get('ajs_anonymous_id'));
+        assert('anon-id' === cookie.get('anonymousId'));
       });
 
       it('should return anonymousId using the store', function(){
@@ -416,7 +416,7 @@ describe('user', function () {
       user.anonymousId('anon-id');
       user.traits({ trait: true });
       user.logout();
-      assert(null === cookie.get('ajs_anonymous_id'));
+      assert(null === cookie.get('anonymousId'));
       assert(null === user.id());
       assert(equal({}, user.traits()));
     });
