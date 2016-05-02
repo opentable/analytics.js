@@ -1,3 +1,11 @@
+opentable 2.8.1
+==================
+
+  * use otuvid cooke as the anonymousId
+  * set cookie maxAge default to  5 years
+  * userId is obtained from uCke in web mUcke in mobileweb
+  * use ajs_gpid to set the gpid firing an identify event
+  * disabled some tests, since the API changed a little.
 
 2.8.0 / 2015-03-07
 ==================
@@ -10,7 +18,7 @@
   * entity: fallback to localstorage when cookies are disabled
   * tests: add localstorage fallback tests
   * dist: rebuild
-  
+
 2.7.1 / 2015-03-05
 ==================
 

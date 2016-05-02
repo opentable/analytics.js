@@ -26,26 +26,22 @@ describe('cookie', function () {
 
     it('should get an existing cookie', function () {
       cookie.set('x', json.stringify({ a : 'b' }));
-      assert(equal(cookie.get('x'), json.parse({ a : 'b' })));
+      assert(equal(json.parse(cookie.get('x')), { a : 'b'} ));
     });
 
-    it('should not throw an error on a malformed cookie', function () {
-      document.cookie="x=y";
-      assert(cookie.get('x') === null);
-    });
-  });
+ });
 
   describe('#set', function () {
     it('should set a cookie', function () {
       cookie.set('x', json.stringify({ a : 'b' }));
-      assert(equal(cookie.get('x'), json.parse({ a : 'b' })));
+      assert(equal( json.parse(cookie.get('x')), { a : 'b' } ));
     });
   });
 
   describe('#remove', function () {
     it('should remove a cookie', function () {
       cookie.set('x', json.stringify({ a : 'b' }));
-      assert(equal(cookie.get('x'), json.parse({ a : 'b' })));
+      assert(equal(json.parse(cookie.get('x')), { a : 'b' } ));
       cookie.remove('x');
       assert(cookie.get('x') === null);
     });
@@ -55,7 +51,7 @@ describe('cookie', function () {
     it('should save options', function () {
       cookie.options({ path: '/xyz' });
       assert(equal(cookie.options().path, '/xyz'));
-      assert(equal(cookie.options().maxage, 31536000000));
+      assert(equal(cookie.options().maxage, 157680000000)); // 5*365*24*60*60*1000
     });
 
     it('should set the domain correctly', function(){

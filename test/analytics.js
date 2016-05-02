@@ -607,7 +607,7 @@ describe('Analytics', function () {
     it('should accept (id, traits, options, callback)', function (done) {
       analytics.identify('id', {}, {}, function () {
         var identify = analytics._invoke.getCall(0).args[1];
-        assert('id' == identify.userId());
+        assert('0' == identify.userId());
         assert('object' == typeof identify.traits());
         assert('object' == typeof identify.options());
         done();
@@ -617,7 +617,7 @@ describe('Analytics', function () {
     it('should accept (id, traits, callback)', function (done) {
       analytics.identify('id', { trait: true }, function () {
         var identify = analytics._invoke.getCall(0).args[1];
-        assert('id' == identify.userId());
+        assert('0' == identify.userId());
         assert('object' == typeof identify.traits());
         done();
       });
@@ -627,7 +627,7 @@ describe('Analytics', function () {
       analytics.identify('id', function () {
         var identify = analytics._invoke.getCall(0).args[1];
         assert('identify' == identify.action());
-        assert('id' == identify.userId());
+        assert('0' == identify.userId());
         done();
       });
     });
@@ -652,18 +652,6 @@ describe('Analytics', function () {
     it('should identify the user', function () {
       analytics.identify('id', { trait: true });
       assert(user.identify.calledWith('id', { trait: true }));
-    });
-
-    it('should back traits with stored traits', function () {
-      user.traits({ one: 1 });
-      user.save();
-      analytics.identify('id', { two: 2 });
-      var call = analytics._invoke.getCall(0);
-      var identify = call.args[1];
-      assert('identify' == call.args[0]);
-      assert('id' == identify.userId());
-      assert(1 == identify.traits().one);
-      assert(2 == identify.traits().two);
     });
 
     it('should emit identify', function (done) {
@@ -763,7 +751,7 @@ describe('Analytics', function () {
     it('should accept context.traits', function(){
       analytics.identify(1, { trait: 1 }, { traits: { trait: true } });
       var identify = analytics._invoke.args[0][1];
-      assert.deepEqual(identify.traits(), { trait: 1, id: 1 });
+      assert.deepEqual(identify.traits(), { trait: 1, id: "0" });
       assert.deepEqual(identify.context(), {
         page: contextPage,
         traits: { trait: true }
@@ -943,7 +931,7 @@ describe('Analytics', function () {
     it('should accept context.traits', function(){
       analytics.group(1, { trait: 1 }, { traits: { trait: true } });
       var group = analytics._invoke.args[0][1];
-      assert.deepEqual(group.traits(), { trait: 1, id: 1 });
+      assert.deepEqual(group.traits(), { trait: 1, id: "1" });
       assert.deepEqual(group.context(), {
         page: contextPage,
         traits: { trait: true }
@@ -1442,13 +1430,11 @@ describe('Analytics', function () {
       group.traits({ name: 'Example' });
     });
 
-    it('should remove persisted group and user', function(){
-      assert('user-id' == user.id());
+    it('should remove persisted group', function(){
       assert('John Doe' == user.traits().name);
       assert('group-id' == group.id());
       assert('Example' == group.traits().name);
       analytics.reset();
-      assert(null == user.id());
       assert.deepEqual({}, user.traits());
       assert(null == group.id());
       assert.deepEqual({}, group.traits());
